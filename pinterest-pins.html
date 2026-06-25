@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomeHaven Pinterest Pins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; background: #f0ede8; padding: 2rem; }
+    h1 { font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 0.5rem; color: #1A1A18; }
+    .instructions { text-align: center; color: #4A4A44; margin-bottom: 2.5rem; font-size: 0.9rem; }
+    .pins-grid { display: grid; grid-template-columns: repeat(auto-fit, 400px); gap: 2rem; justify-content: center; }
+
+    .pin {
+      width: 400px;
+      height: 600px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      page-break-inside: avoid;
+    }
+
+    .pin-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pin-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.88) 100%);
+    }
+
+    .pin-content {
+      position: relative;
+      z-index: 2;
+      padding: 1.8rem;
+    }
+
+    .pin-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .pin-logo-dot {
+      width: 6px;
+      height: 6px;
+      background: #7A9E87;
+      border-radius: 50%;
+    }
+
+    .pin-logo-text {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .pin-category {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #7A9E87;
+      margin-bottom: 0.5rem;
+    }
+
+    .pin-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.02em;
+    }
+
+    .pin-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .pin-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #7A9E87;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .pin-cta::after { content: '→'; }
+
+    /* Solid color backgrounds for pins without photos */
+    .bg-sage { background: linear-gradient(135deg, #4a7c5f 0%, #7A9E87 50%, #a8c5b5 100%); }
+    .bg-warm { background: linear-gradient(135deg, #8B5E3C 0%, #C4956A 50%, #e8c4a0 100%); }
+    .bg-dark { background: linear-gradient(135deg, #1A1A18 0%, #2d2d2a 50%, #4A4A44 100%); }
+    .bg-blue { background: linear-gradient(135deg, #2c4a6e 0%, #3d6b9e 50%, #7aabcc 100%); }
+    .bg-purple { background: linear-gradient(135deg, #4a2c6e 0%, #7a4a9e 50%, #b07acc 100%); }
+    .bg-teal { background: linear-gradient(135deg, #1a5c5c 0%, #2d8a8a 50%, #7acccc 100%); }
+    .bg-rust { background: linear-gradient(135deg, #6e2c1a 0%, #9e4a2d 50%, #cc7a5a 100%); }
+
+    .pin-label {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.2rem;
+      z-index: 3;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #1A1A18;
+      background: rgba(255,255,255,0.9);
+      padding: 0.3rem 0.7rem;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #7A9E87;
+      z-index: 3;
+    }
+
+    /* Pattern overlays for visual texture */
+    .pattern-dots::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      z-index: 1;
+    }
+
+    .print-note {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: #4A4A44;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .pins-grid { grid-template-columns: 400px 400px; gap: 1rem; }
+      .instructions, .print-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>HomeHaven Reviews — Pinterest Pins</h1>
+<p class="instructions">Screenshot each pin individually and upload to Pinterest with your article link. Recommended size: 1000×1500px — scale up if needed.</p>
+
+<div class="pins-grid">
+
+  <!-- PIN 1: Cordless Drills -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-drills.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Tools & DIY</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Power Tools</div>
+      <div class="pin-title">Best Cordless Drills of 2026 — Tested & Ranked</div>
+      <div class="pin-desc">We compared every major cordless drill so you don't have to. Budget picks, best overall, and pro-grade options — all ranked.</div>
+      <div class="pin-cta">Read the Review</div>
+    </div>
+  </div>
+
+  <!-- PIN 2: Accent Chairs -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-accent-chair.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Furniture</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Living Room</div>
+      <div class="pin-title">Best Accent Chairs for Small Living Rooms</div>
+      <div class="pin-desc">The perfect accent chair transforms a room without overwhelming it. Here are our top picks from $120 to $250.</div>
+      <div class="pin-cta">See Top Picks</div>
+    </div>
+  </div>
+
+  <!-- PIN 3: Platform Beds -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-bed-frame.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Bedroom</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Bedroom Furniture</div>
+      <div class="pin-title">Best Platform Bed Frames of 2026</div>
+      <div class="pin-desc">From $80 budget picks to boutique-hotel worthy frames — we ranked the best platform beds at every price point.</div>
+      <div class="pin-cta">Read the Review</div>
+    </div>
+  </div>
+
+  <!-- PIN 4: Sectional Sofas -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-sectional.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Living Room</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Sofas & Seating</div>
+      <div class="pin-title">Best Sectional Sofas of 2026 — Ranked by Real Owners</div>
+      <div class="pin-desc">Cloud sofas, U-shapes, modular picks — we broke down the best sectionals from $480 to $900 so you can buy with confidence.</div>
+      <div class="pin-cta">See Rankings</div>
+    </div>
+  </div>
+
+  <!-- PIN 5: Smart Bulbs -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-smart-bulbs.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Smart Home</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Lighting</div>
+      <div class="pin-title">Philips Hue vs LIFX vs Govee — Which Smart Bulb Wins?</div>
+      <div class="pin-desc">We compared the three biggest smart bulb brands head to head. The winner might surprise you.</div>
+      <div class="pin-cta">See the Comparison</div>
+    </div>
+  </div>
+
+  <!-- PIN 6: Floor Lamps -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-floor-lamp.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Lighting</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Home Lighting</div>
+      <div class="pin-title">Best Floor Lamps for Any Budget — 2026 Picks</div>
+      <div class="pin-desc">The right floor lamp transforms a dark corner into the coziest spot in your home. Here are our top picks from $28 to $50.</div>
+      <div class="pin-cta">Read the Review</div>
+    </div>
+  </div>
+
+  <!-- PIN 7: Stud Finders -->
+  <div class="pin pattern-dots" style="background-image: url('https://homehavenreviews.netlify.app/hero-stud-finder.jpg'); background-size: cover; background-position: center;">
+    <div class="top-bar"></div>
+    <div class="pin-label">Tools & DIY</div>
+    <div class="pin-overlay"></div>
+    <div class="pin-content">
+      <div class="pin-logo"><div class="pin-logo-dot"></div><span class="pin-logo-text">HomeHaven Reviews</span></div>
+      <div class="pin-category">Home Improvement</div>
+      <div class="pin-title">5 Best Stud Finders That Actually Work</div>
+      <div class="pin-desc">Stop guessing and start finding. We tested the top stud finders so you never drill in the wrong spot again.</div>
+      <div class="pin-cta">See Top Picks</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="print-note">
+  💡 <strong>How to use these:</strong> Screenshot each pin one at a time, then upload to Pinterest. Link each pin to its matching article on homehavenreviews.netlify.app. For best quality, zoom your browser to 150% before screenshotting.
+</div>
+
+</body>
+</html>
