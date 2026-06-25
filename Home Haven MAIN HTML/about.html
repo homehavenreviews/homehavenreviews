@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — HomeHaven Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F7F4EF; --white: #FFFFFF; --ink: #1A1A18; --ink-soft: #4A4A44;
+      --ink-muted: #8A8A80; --sage: #7A9E87; --sage-light: #EAF1EC;
+      --warm: #C4956A; --warm-light: #FAF1E8; --border: #E8E4DC; --card-bg: #FDFCFA;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,244,239,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .nav-logo span { color: var(--sage); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--ink-soft); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { background: var(--ink); color: var(--white) !important; padding: 0.45rem 1.1rem; border-radius: 100px; font-size: 0.85rem !important; }
+
+    .page-hero {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 4rem 2rem 3rem; text-align: center;
+    }
+    .page-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--sage-light); color: var(--sage);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 100px; margin-bottom: 1.2rem;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .page-hero p { color: var(--ink-soft); font-size: 1.05rem; font-weight: 300; max-width: 540px; margin: 0 auto; }
+
+    .content { max-width: 780px; margin: 0 auto; padding: 4rem 2rem; }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center; margin-bottom: 4rem;
+    }
+    .about-visual {
+      background: var(--sage-light); border-radius: 20px;
+      aspect-ratio: 1; display: flex; align-items: center;
+      justify-content: center; font-size: 6rem;
+    }
+    .about-text h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.8rem;
+      font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .about-text p { color: var(--ink-soft); font-weight: 300; line-height: 1.8; margin-bottom: 1rem; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 3rem 0; }
+    .value-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem; text-align: center;
+    }
+    .value-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .value-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .value-desc { font-size: 0.85rem; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.2rem;
+    }
+    .prose { color: var(--ink-soft); font-weight: 300; line-height: 1.8; margin-bottom: 1.2rem; }
+
+    .process-steps { margin: 2rem 0; }
+    .step {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding: 1.2rem 0; border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Playfair Display', serif; font-size: 1.8rem;
+      font-weight: 700; color: var(--border); min-width: 2.5rem; line-height: 1;
+    }
+    .step-content h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .step-content p { font-size: 0.88rem; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+
+    .disclosure {
+      background: var(--warm-light); border: 1px solid #EAD9C4;
+      border-radius: 14px; padding: 1.5rem; margin: 3rem 0;
+      font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7;
+    }
+    .disclosure strong { color: var(--ink); }
+
+    footer {
+      background: var(--white); border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; font-size: 0.82rem; color: var(--ink-muted);
+    }
+    footer a { color: var(--sage); text-decoration: none; margin: 0 0.5rem; }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .values-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Home<span>Haven</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="index.html#categories">Categories</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-eyebrow">Our Story</div>
+  <h1>About HomeHaven Reviews</h1>
+  <p>We're real homeowners who got tired of biased reviews. So we built something better.</p>
+</div>
+
+<div class="content">
+
+  <div class="about-grid">
+    <div class="about-visual">🏡</div>
+    <div class="about-text">
+      <h2>Why we started HomeHaven</h2>
+      <p>Every time we needed to furnish a room or tackle a home project, we ran into the same problem — most review sites were either outdated, sponsored, or just copying each other.</p>
+      <p>HomeHaven started as a personal project to answer one question: <em>what actually works in a real home?</em> We research, compare, and review products based on real-world use — not manufacturer specs.</p>
+      <p>Our goal is simple: save you time, money, and the frustration of buying the wrong thing.</p>
+    </div>
+  </div>
+
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-icon">🔍</div>
+      <div class="value-title">Independent</div>
+      <div class="value-desc">No brand pays us to write positive reviews. Our opinions are entirely our own.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">✅</div>
+      <div class="value-title">Thorough</div>
+      <div class="value-desc">We dig into specs, real customer feedback, and long-term durability before recommending anything.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">💬</div>
+      <div class="value-title">Honest</div>
+      <div class="value-desc">If a product has flaws, we say so. A recommendation only means something if we're willing to pan things too.</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">How we review products</h2>
+  <p class="prose">Every review on HomeHaven follows the same process. We don't publish anything that hasn't gone through these steps.</p>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h4>Research the market</h4>
+        <p>We start by mapping out every major product in a category, from budget to premium, and narrow down the most purchased and most talked-about options.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h4>Dig into real customer feedback</h4>
+        <p>We analyze hundreds of real owner reviews to find recurring praise and complaints — not just the top-line star rating.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h4>Compare specs honestly</h4>
+        <p>We break down what actually matters for each product type and cut through marketing language to give you a straight comparison.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h4>Make a clear recommendation</h4>
+        <p>Every review ends with a definitive pick. We tell you exactly who each product is best for and who should look elsewhere.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclosure">
+    <strong>Affiliate Disclosure:</strong> HomeHaven Reviews participates in the Amazon Associates Program and other affiliate programs. When you click a link and make a purchase, we may earn a small commission at no extra cost to you. This helps keep the site running and free to use. It does not influence our reviews or recommendations — we only recommend products we genuinely believe are worth buying.
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 HomeHaven Reviews &nbsp;|&nbsp;
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="disclosure.html">Affiliate Disclosure</a>
+  </p>
+</footer>
+
+</body>
+</html>
